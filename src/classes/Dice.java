@@ -5,6 +5,7 @@ import java.util.Random;
 public class Dice{
 
     private int[] result = {0,0,0,0,0,0};
+    private Object[] watcher = {new Object(), new Object(), new Object(), new Object(), new Object(), new Object()};
 
     @Override
     public String toString() {
@@ -21,11 +22,10 @@ public class Dice{
         return s;
     }
 
-    public synchronized void throwDice(){
-        Random r = new Random();
-        int number = r.nextInt(6)+1;
-
-        result[number-1]++;
+    public void throwDice(int number){
+        synchronized (watcher[number-1]) {
+            result[number - 1]++;
+        }
 
         System.out.println("Se ha lanzado el número " + number);
 
